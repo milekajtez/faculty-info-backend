@@ -1,0 +1,12 @@
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\bin\Debug\net6.0\FacultyInfo.Infrastructure.deps.json
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\bin\Debug\net6.0\FacultyInfo.Infrastructure.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\bin\Debug\net6.0\FacultyInfo.Infrastructure.pdb
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.AssemblyInfo.cs
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\refint\FacultyInfo.Infrastructure.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.pdb
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\ref\FacultyInfo.Infrastructure.dll
