@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "nwNNtdXbf2vQ+nPVZV7jazX5JWZuUfCKx5zC3eqWYXZ0EZeLa9GKOhYJxqpypTftZg/7RNTA6DUYeEPFRcPyYg==",
+  "dgSpecHash": "9bs91/DBoZkNxEQ3IW007WtF4oY/zvLdu0L2aa+moj9qGklTITOAZ7LXRP0KOdwIPRZhu3IeCMg4YVLNrJPn7Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\milek\\Desktop\\faculty-info-backend\\faculty-info-service-app\\FacultyInfo.Application\\FacultyInfo.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\milek\\.nuget\\packages\\mediatr\\12.0.0\\mediatr.12.0.0.nupkg.sha512",
+    "C:\\Users\\milek\\.nuget\\packages\\mediatr.contracts\\2.0.0\\mediatr.contracts.2.0.0.nupkg.sha512",
+    "C:\\Users\\milek\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
+    "C:\\Users\\milek\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

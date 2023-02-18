@@ -10,3 +10,8 @@ C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo
 C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\refint\FacultyInfo.Infrastructure.dll
 C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.pdb
 C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\ref\FacultyInfo.Infrastructure.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\bin\Debug\net6.0\FacultyInfo.Infrastructure.runtimeconfig.json
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\bin\Debug\net6.0\FacultyInfo.Domain.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\bin\Debug\net6.0\FacultyInfo.Domain.pdb
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.csproj.CopyComplete
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Infrastructure\obj\Debug\net6.0\FacultyInfo.Infrastructure.genruntimeconfig.cache
