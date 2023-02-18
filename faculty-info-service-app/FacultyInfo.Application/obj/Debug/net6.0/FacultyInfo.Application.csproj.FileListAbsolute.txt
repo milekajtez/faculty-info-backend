@@ -10,3 +10,6 @@ C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo
 C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Application\obj\Debug\net6.0\refint\FacultyInfo.Application.dll
 C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Application\obj\Debug\net6.0\FacultyInfo.Application.pdb
 C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Application\obj\Debug\net6.0\ref\FacultyInfo.Application.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Application\bin\Debug\net6.0\FacultyInfo.Domain.dll
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Application\bin\Debug\net6.0\FacultyInfo.Domain.pdb
+C:\Users\milek\Desktop\faculty-info-backend\faculty-info-service-app\FacultyInfo.Application\obj\Debug\net6.0\FacultyInfo.Application.csproj.CopyComplete
