@@ -1,8 +1,8 @@
-﻿namespace FacultyInfo.Domain.Models.ModelsForUsers
+﻿namespace FacultyInfo.Domain.Models
 {
     public class Security : Entity
     {
-        public Guid UserId { get; set; }
         public string Password { get; set; }
+        public User User { get; set; }
     }
 }

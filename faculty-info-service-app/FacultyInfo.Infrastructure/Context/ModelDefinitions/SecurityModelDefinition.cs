@@ -1,4 +1,4 @@
-﻿using FacultyInfo.Domain.Models.ModelsForUsers;
+﻿using FacultyInfo.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
@@ -17,10 +17,6 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
             modelBuilder.Entity<Security>()
                 .Property(e => e.Updated)
                 .HasColumnType("timestamp without time zone");
-
-            modelBuilder.Entity<Security>()
-                .Property(e => e.UserId)
-                .IsRequired();
 
             modelBuilder.Entity<Security>()
                 .Property(e => e.Password)

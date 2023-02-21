@@ -1,47 +1,47 @@
 ﻿using FacultyInfo.Domain.Models;
-using FacultyInfo.Domain.Models.ModelsForUsers;
 using Microsoft.EntityFrameworkCore;
 
 namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
 {
-    public class StudentModelDefinition
+    public  class UserModelDefinition
     {
         public static void SetModelDefinition(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Student>()
+            modelBuilder.Entity<User>()
                 .HasKey(e => e.Id);
 
-            modelBuilder.Entity<Student>()
+            modelBuilder.Entity<User>()
                 .Property(e => e.Created)
-                .HasColumnType("timestamp without time zone");
-
-            modelBuilder.Entity<Student>()
-                .Property(e => e.Updated)
-                .HasColumnType("timestamp without time zone");
-
-            modelBuilder.Entity<Student>()
-                .Property(e => e.UserName)
-                .IsRequired();
-
-            modelBuilder.Entity<Student>()
-                .Property(e => e.Email)
-                .IsRequired();
-
-            modelBuilder.Entity<Student>()
-                .Property(e => e.FirstName)
-                .IsRequired();
-
-            modelBuilder.Entity<Student>()
-                .Property(e => e.LastName)
-                .IsRequired();
-
-            modelBuilder.Entity<Student>()
-                .Property(e => e.DateOfBirth)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
-            modelBuilder.Entity<Student>()
-                .Property(e => e.FinanceType)
+            modelBuilder.Entity<User>()
+                .Property(e => e.Updated)
+                .HasColumnType("timestamp without time zone")
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.UserName)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.Email)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.FirstName)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.LastName)
+                .IsRequired();
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.DateOfBirth)
+                .HasColumnType("timestamp without time zone");
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.UserType)
                 .IsRequired();
         }
     }
