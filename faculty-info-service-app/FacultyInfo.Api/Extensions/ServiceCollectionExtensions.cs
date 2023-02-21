@@ -1,4 +1,5 @@
-﻿using FacultyInfo.Infrastructure.Context;
+﻿using FacultyInfo.Domain.Abstractions.UnitOfWork;
+using FacultyInfo.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -20,7 +21,6 @@ namespace FacultyInfo.Api.Extensions
                         .SetIsOriginAllowedToAllowWildcardSubdomains();
                 });
             });
-
             serviceCollection.AddAutoMapper(typeof(ServiceCollectionExtensions));
             serviceCollection.AddHttpClient();
         }
@@ -31,9 +31,9 @@ namespace FacultyInfo.Api.Extensions
             {
                 configureOptions.SwaggerDoc("FacultyInfoOpenAPISpecification", new OpenApiInfo
                 {
-                    Title = "Mesa WebAPI",
+                    Title = "Faculty Info WebAPI",
                     Version = "v1",
-                    Description = "Mesa WebAPI specification"
+                    Description = "Faculty Info WebAPI specification"
                 });
             });
         }

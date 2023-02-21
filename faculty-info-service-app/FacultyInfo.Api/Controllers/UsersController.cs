@@ -1,6 +1,5 @@
 ﻿using FacultyInfo.Api.Controllers.Base;
-using FacultyInfo.Application.Students.Commands.CreateStudent;
-using Microsoft.AspNetCore.Authorization;
+using FacultyInfo.Application.Users.Commands.CreateUser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FacultyInfo.Api.Controllers
@@ -9,11 +8,12 @@ namespace FacultyInfo.Api.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<string>> CreateStudent(CreateStudentCommand createSubCommentCommand) 
+        public async Task<ActionResult<string>> CreateUser(CreateUserCommand createUserCommand) 
         {
-            return Ok("");
+            var user = await Mediator.Send(createUserCommand);
+
+            return Created(user.UserId.ToString(), user);
         }
     }
 }
