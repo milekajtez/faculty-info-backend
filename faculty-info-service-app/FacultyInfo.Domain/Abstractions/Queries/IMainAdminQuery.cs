@@ -3,7 +3,7 @@ using FacultyInfo.Domain.Models;
 
 namespace FacultyInfo.Domain.Abstractions.Queries
 {
-    public interface IUsersQuery : IBaseQuery<User>
+    public interface IMainAdminQuery : IBaseQuery<MainAdmin>
     {
     }
 }

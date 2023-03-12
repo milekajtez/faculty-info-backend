@@ -5,9 +5,9 @@ using FacultyInfo.Infrastructure.Repositories.Base;
 
 namespace FacultyInfo.Infrastructure.Repositories
 {
-    public class UsersRepository : BaseRepository<User>, IUsersRepository
+    public class MainAdminRepository : BaseRepository<MainAdmin>, IMainAdminRepository
     {
-        public UsersRepository(DataContext dataContext) : base(dataContext)
+        public MainAdminRepository(DataContext dataContext) : base(dataContext)
         {
         }
     }

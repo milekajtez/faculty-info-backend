@@ -5,9 +5,9 @@ using FacultyInfo.Infrastructure.Queries.Base;
 
 namespace FacultyInfo.Infrastructure.Queries
 {
-    public class UsersQuery : BaseQuery<User>, IUsersQuery
+    public class FacultyQuery : BaseQuery<Faculty>, IFacultyQuery
     {
-        public UsersQuery(DataContext dataContext) : base(dataContext)
+        public FacultyQuery(DataContext dataContext) : base(dataContext)
         {
         }
     }
