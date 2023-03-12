@@ -3,7 +3,7 @@ using FacultyInfo.Domain.Models;
 
 namespace FacultyInfo.Domain.Abstractions.Repositories
 {
-    public interface IUsersRepository : IBaseRepository<User>
+    public interface ICommentRepository : IBaseRepository<Comment>
     {
     }
 }

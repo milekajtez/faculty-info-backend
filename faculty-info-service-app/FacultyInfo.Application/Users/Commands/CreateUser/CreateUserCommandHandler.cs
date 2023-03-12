@@ -26,26 +26,9 @@ namespace FacultyInfo.Application.Users.Commands.CreateUser
 
         public async Task<UserDto> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            string errorMessage = $"User with Username: {request.Username} or Email: {request.Email} already exist";
+            // string errorMessage = $"User with Username: {request.Username} or Email: {request.Email} already exist";
 
-            var userExists = await _unitOfWork.UsersQuery
-                .AnyAsync(da => da.UserName == request.Username || da.Email == request.Email, cancellationToken);
-
-            if (userExists) throw new AlreadyExistsException($"User with Username: {request.Username} or Email: {request.Email} already exist");
-
-            string passwordHash = _hashService.GetStringToHash(request.Password);
-            User newUser = _mapper.Map<User>(request);
-
-            // generate token
-            string token = "";
-
-            // add user to table
-            // add password to table
-
-            var result = new UserDto();
-            result.Init(newUser.Id, newUser.UserName, token);
-
-            return result;
+            return new UserDto();
         }
     }
 }
