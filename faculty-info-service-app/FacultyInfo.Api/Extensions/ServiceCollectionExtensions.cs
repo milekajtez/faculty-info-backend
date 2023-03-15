@@ -1,7 +1,11 @@
 ﻿using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Infrastructure.Context;
+using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using FacultyInfo.Infrastructure.UnitOfWork;
+using FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin;
 
 namespace FacultyInfo.Api.Extensions
 {
@@ -21,11 +25,13 @@ namespace FacultyInfo.Api.Extensions
                         .SetIsOriginAllowedToAllowWildcardSubdomains();
                 });
             });
+
+            serviceCollection.AddTransient<IUnitOfWork, UnitOfWork>();
             serviceCollection.AddAutoMapper(typeof(ServiceCollectionExtensions));
             serviceCollection.AddHttpClient();
         }
 
-        public static void AddSwaggerServices(this IServiceCollection serviceCollection, IConfiguration configuration)
+        public static void AddSwaggerServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddSwaggerGen(configureOptions =>
             {
@@ -35,7 +41,30 @@ namespace FacultyInfo.Api.Extensions
                     Version = "v1",
                     Description = "Faculty Info WebAPI specification"
                 });
+
+                configureOptions.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Type = SecuritySchemeType.OAuth2,
+                            Name = JwtBearerDefaults.AuthenticationScheme,
+                            In = ParameterLocation.Header,
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
             });
+        }
+
+        public static void AddMediatorServices(this IServiceCollection serviceCollection) 
+        {
+            serviceCollection.AddMediatR(typeof(RegisterMainAdminCommandHandler));
         }
     }
 }

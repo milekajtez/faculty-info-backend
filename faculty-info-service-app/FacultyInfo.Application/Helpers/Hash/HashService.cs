@@ -13,7 +13,7 @@ namespace FacultyInfo.Application.Helpers.Hash
             _configuration = configuration;
         }
 
-        public string GetStringToHash(string text)
+        public string ConvertStringToHash(string text)
         {
             if (string.IsNullOrEmpty(text)) return string.Empty;
 

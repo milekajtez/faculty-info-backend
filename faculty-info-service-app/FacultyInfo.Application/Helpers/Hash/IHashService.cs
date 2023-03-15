@@ -2,6 +2,6 @@
 {
     public interface IHashService
     {
-        string GetStringToHash(string text);
+        string ConvertStringToHash(string text);
     }
 }

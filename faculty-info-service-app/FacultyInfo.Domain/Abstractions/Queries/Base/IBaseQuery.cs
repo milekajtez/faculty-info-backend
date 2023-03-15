@@ -8,5 +8,6 @@ namespace FacultyInfo.Domain.Abstractions.Queries.Base
         IQueryable<T> GetAll();
         IQueryable<T> Find(Expression<Func<T, bool>> expression);
         Task<bool> AnyAsync(Expression<Func<T, bool>> expression, CancellationToken cancellationToken);
+        public Task<int> CountAsync();
     }
 }

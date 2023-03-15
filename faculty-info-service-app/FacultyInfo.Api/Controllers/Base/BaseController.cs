@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FacultyInfo.Api.Controllers.Base
@@ -8,7 +7,6 @@ namespace FacultyInfo.Api.Controllers.Base
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
-    [Authorize]
     public class BaseController : ControllerBase
     {
         private IMapper _mapper;
