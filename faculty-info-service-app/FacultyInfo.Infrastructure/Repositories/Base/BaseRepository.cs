@@ -18,5 +18,12 @@ namespace FacultyInfo.Infrastructure.Repositories.Base
             return _dataContext.Set<T>()
                 .Where(expression);
         }
+
+        public async Task<T> CreateAsync(T entity)
+        {
+            var created = await _dataContext.Set<T>().AddAsync(entity);
+
+            return created.Entity;
+        }
     }
 }

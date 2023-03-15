@@ -1,7 +1,8 @@
 using FacultyInfo.Api.Extensions;
+using FacultyInfo.Api.Middleware;
+using FacultyInfo.Application.Extensions;
 
 DotNetEnv.Env.Load();
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,11 +12,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApiServices(builder.Configuration);
+builder.Services.AddMediatorServices();
+builder.Services.AddApplicationServices();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 
 // Swagger configuration
-builder.Services.AddSwaggerServices(builder.Configuration);
+builder.Services.AddSwaggerServices();
 
 var app = builder.Build();
 
@@ -34,6 +37,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<CustomExceptionMiddleware>();
 
 app.MapControllers();
 

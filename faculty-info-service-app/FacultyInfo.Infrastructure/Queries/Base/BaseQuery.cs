@@ -31,5 +31,10 @@ namespace FacultyInfo.Infrastructure.Queries.Base
             return _dataContext.Set<T>()
                 .AsNoTracking();
         }
+        
+        public async Task<int> CountAsync() 
+        {
+            return await _dataContext.Set<T>().CountAsync();
+        }
     }
 }
