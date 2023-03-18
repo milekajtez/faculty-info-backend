@@ -1,35 +1,37 @@
-﻿using FacultyInfo.Domain.Models;
+﻿using FacultyInfo.Domain.Enums.User;
+using FacultyInfo.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
 {
-    public class MainAdminModelDefinition
+    public class SecurityModelDefinition
     {
         public static void SetModelDefinition(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MainAdmin>()
+            modelBuilder.Entity<Security>()
                 .HasKey(e => e.Id);
 
-            modelBuilder.Entity<MainAdmin>()
+            modelBuilder.Entity<Security>()
                 .Property(e => e.Created)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
-            modelBuilder.Entity<MainAdmin>()
+            modelBuilder.Entity<Security>()
                 .Property(e => e.Updated)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
-            modelBuilder.Entity<MainAdmin>()
+            modelBuilder.Entity<Security>()
                 .HasIndex(e => e.Email)
                 .IsUnique();
 
-            modelBuilder.Entity<MainAdmin>()
-                .Property(e => e.FirstName)
+            modelBuilder.Entity<Security>()
+                .Property(e => e.Password)
                 .IsRequired();
 
-            modelBuilder.Entity<MainAdmin>()
-                .Property(e => e.LastName)
+            modelBuilder.Entity<Security>()
+                .Property(e => e.UserType)
+                .HasDefaultValue(UserType.MainAdmin)
                 .IsRequired();
         }
     }

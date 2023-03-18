@@ -8,46 +8,38 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
         public static void SetModelDefinition(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<FacultyAdmin>()
-                .HasKey(f => f.Id);
+                .HasKey(e => e.Id);
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.Created)
+                .Property(e => e.Created)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.Updated)
+                .Property(e => e.Updated)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.UserName)
+                .HasIndex(e => e.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<FacultyAdmin>()
+                .Property(e => e.FirstName)
                 .IsRequired();
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.Email)
+                .Property(e => e.LastName)
                 .IsRequired();
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.FirstName)
+                .Property(e => e.PhotoUrl)
                 .IsRequired();
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.LastName)
-                .IsRequired();
-
-            modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.PasswordValue)
-                .IsRequired();
-
-            modelBuilder.Entity<FacultyAdmin>()
-                .Property(f => f.PhotoUrl)
-                .IsRequired();
-
-            modelBuilder.Entity<FacultyAdmin>()
-                .HasOne(fa => fa.Faculty)
-                .WithMany(fa => fa.FacultyAdmins)
-                .HasForeignKey(fa => fa.FacultyId);
+                .HasOne(e => e.Faculty)
+                .WithMany(e => e.FacultyAdmins)
+                .HasForeignKey(e => e.FacultyId);
         }
     }
 }
