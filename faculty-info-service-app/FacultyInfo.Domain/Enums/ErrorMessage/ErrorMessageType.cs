@@ -2,6 +2,9 @@
 {
     public enum ErrorMessageType
     {
-        MainAdminHasBeenFound
+        MainAdminHasBeenFound,
+        InvalidConversionFromUserTypeToString,
+        IncorrectEmailOrPassword,
+        ConversionToHashInvalid
     }
 }

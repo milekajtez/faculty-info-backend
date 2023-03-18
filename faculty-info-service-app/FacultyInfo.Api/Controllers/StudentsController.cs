@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FacultyInfo.Api.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public class StudentsController : BaseController
     {
         [HttpPost("register")]

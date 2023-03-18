@@ -9,49 +9,41 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
         public static void SetModelDefinition(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Professor>()
-                .HasKey(p => p.Id);
+                .HasKey(e => e.Id);
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.Created)
+                .Property(e => e.Created)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.Updated)
+                .Property(e => e.Updated)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.UserName)
+                .HasIndex(e => e.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<Professor>()
+                .Property(e => e.FirstName)
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.Email)
+                .Property(e => e.LastName)
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.FirstName)
+                .Property(e => e.PhotoUrl)
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.LastName)
-                .IsRequired();
-
-            modelBuilder.Entity<Professor>()
-                .Property(p => p.PasswordValue)
-                .IsRequired();
-
-            modelBuilder.Entity<Professor>()
-                .Property(p => p.PhotoUrl)
-                .IsRequired();
-
-            modelBuilder.Entity<Professor>()
-                .Property(p => p.DateOfBirth)
+                .Property(e => e.DateOfBirth)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(p => p.PhotoUrl)
+                .Property(e => e.PhotoUrl)
                 .HasDefaultValue(ProfessorType.Regular)
                 .IsRequired();
         }

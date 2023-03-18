@@ -3,10 +3,12 @@ using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.MainAdmin;
 using FacultyInfo.Domain.Enums.ErrorMessage;
+using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Exceptions.Messages;
 using FacultyInfo.Domain.Models;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin
@@ -32,26 +34,40 @@ namespace FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin
 
         public async Task<MainAdminDto> Handle(RegisterMainAdminCommand request, CancellationToken cancellationToken)
         {
-            var mainAdminCounter = await _unitOfWork.MainAdminQuery.CountAsync();
-            if (mainAdminCounter > 0) 
-                throw new AlreadyExistsException(ErrorMessage.GenerateErrorMessage(ErrorMessageType.MainAdminHasBeenFound, Array.Empty<string>()));
+            var mainAdminEmail = _configuration["MAIN_ADMIN_EMAIL"];
+            var mainAdminSecurity = await _unitOfWork.SecurityQuery
+                .Find(e => e.Email == mainAdminEmail)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (mainAdminSecurity is not null) 
+                throw new AlreadyExistsException(
+                    ErrorMessage.GenerateErrorMessage(ErrorMessageType.MainAdminHasBeenFound, Array.Empty<string>()));
                 
             var newMainAdmin = new MainAdmin();
             newMainAdmin.Init(
+                Guid.NewGuid(), 
+                DateTime.UtcNow, 
+                DateTime.UtcNow,
+                mainAdminEmail, 
+                _configuration["MAIN_ADMIN_FIRST_NAME"],
+                _configuration["MAIN_ADMIN_LAST_NAME"]);
+
+            var passwordHash = _hashService.ConvertStringToHash(_configuration["MAIN_ADMIN_PASSWORD"]);
+            var newMASecurity = new Security();
+            newMASecurity.Init(
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 DateTime.UtcNow,
-                _configuration["MAIN_ADMIN_USERNAME"], 
-                _configuration["MAIN_ADMIN_EMAIL"], 
-                _configuration["MAIN_ADMIN_FIRST_NAME"], 
-                _configuration["MAIN_ADMIN_LAST_NAME"],
-                _hashService.ConvertStringToHash(_configuration["MAIN_ADMIN_PASSWORD"]));
+                mainAdminEmail, 
+                passwordHash,
+                UserType.MainAdmin);
 
-            var created = await _unitOfWork.MainAdminRepository.CreateAsync(newMainAdmin);
+            var createdMainAdmin = await _unitOfWork.MainAdminRepository.CreateAsync(newMainAdmin);
+            var createdSecurity = await _unitOfWork.SecurityRepository.CreateAsync(newMASecurity);
 
             await _unitOfWork.CompleteAsync();
 
-            return _mapper.Map<MainAdminDto>(created);
+            return _mapper.Map<MainAdminDto>(createdMainAdmin);
         }
     }
 }

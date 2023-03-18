@@ -2,7 +2,8 @@
 {
     public enum UserType
     {
-        DepartmentAdmin,
+        MainAdmin,
+        FacultyAdmin,
         Professor,
         Student
     }
