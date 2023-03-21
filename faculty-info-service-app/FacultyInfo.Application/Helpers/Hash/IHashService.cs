@@ -4,5 +4,6 @@
     {
         string ConvertStringToHash(string text);
         string GenerateToken(string email, string userRole);
+        string GenerateTempPassword();
     }
 }

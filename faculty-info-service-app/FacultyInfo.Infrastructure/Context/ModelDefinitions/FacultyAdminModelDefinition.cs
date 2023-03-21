@@ -33,10 +33,6 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
                 .IsRequired();
 
             modelBuilder.Entity<FacultyAdmin>()
-                .Property(e => e.PhotoUrl)
-                .IsRequired();
-
-            modelBuilder.Entity<FacultyAdmin>()
                 .HasOne(e => e.Faculty)
                 .WithMany(e => e.FacultyAdmins)
                 .HasForeignKey(e => e.FacultyId);

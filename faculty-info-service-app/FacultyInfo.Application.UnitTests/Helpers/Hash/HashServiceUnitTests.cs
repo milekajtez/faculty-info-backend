@@ -57,6 +57,7 @@ namespace FacultyInfo.Application.UnitTests.Helpers.Hash
             var jwtKey = "Qwertyuiopasdfghjklz";
             var jwtIssuer = "Test jwt issuer";
             var jwtAudience = "Test jwt audience";
+            var sessionLength = "1";
 
             _configurationMock.Setup(e => e["JWT_KEY"])
                 .Returns(jwtKey);
@@ -64,6 +65,8 @@ namespace FacultyInfo.Application.UnitTests.Helpers.Hash
                 .Returns(jwtIssuer);
             _configurationMock.Setup(e => e["JWT_AUDIENCE"])
                 .Returns(jwtAudience);
+            _configurationMock.Setup(e => e["SESSION_LENGTH_MINUTES"])
+                .Returns(sessionLength);
 
             // Act
             var result = _hashService.GenerateToken(email, userRole);
