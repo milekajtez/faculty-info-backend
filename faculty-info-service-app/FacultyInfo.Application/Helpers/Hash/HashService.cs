@@ -3,6 +3,7 @@ using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Exceptions.Messages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using PasswordGenerator;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -37,20 +38,30 @@ namespace FacultyInfo.Application.Helpers.Hash
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, email),
-                new Claim(ClaimTypes.Email, email),
-                new Claim(ClaimTypes.Role, userRole)
+                new Claim("email", email),
+                new Claim("type", userRole)
             };
 
             var token = new JwtSecurityToken(
                 _configuration["JWT_ISSUER"],
                 _configuration["JWT_AUDIENCE"],
                 claims,
-                expires: DateTime.Now.AddMinutes(15),
+                expires: DateTime.Now.AddMinutes(int.Parse(_configuration["SESSION_LENGTH_MINUTES"])),
                 signingCredentials: credentials);
 
-
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public string GenerateTempPassword() 
+        {
+            var pwd = new Password(
+                includeLowercase: true, 
+                includeUppercase: true, 
+                includeNumeric: true, 
+                includeSpecial: true, 
+                passwordLength: int.Parse(_configuration["TEMP_PASSWORD_LENGTH"]));
+
+            return pwd.Next();
         }
     }
 }

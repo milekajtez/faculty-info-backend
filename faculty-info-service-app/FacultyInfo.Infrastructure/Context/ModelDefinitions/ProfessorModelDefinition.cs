@@ -34,10 +34,6 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
                 .IsRequired();
 
             modelBuilder.Entity<Professor>()
-                .Property(e => e.PhotoUrl)
-                .IsRequired();
-
-            modelBuilder.Entity<Professor>()
                 .Property(e => e.DateOfBirth)
                 .HasColumnType("timestamp without time zone")
                 .IsRequired();
