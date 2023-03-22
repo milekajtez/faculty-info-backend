@@ -65,11 +65,11 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
             var createdFacultyAdmin = await _unitOfWork.FacultyAdminRepository.CreateAsync(facultyAdmin);
             var createdSecurity = await _unitOfWork.SecurityRepository.CreateAsync(facultyAdminSecurity);
 
+            _mailService.SendEmail(request.Email);      // ovo bi trebalo da ide pre return-a
+
             await _unitOfWork.CompleteAsync();
-
-            _mailService.SendEmail(request.Email);
-
-            // dodavanje migracije
+            
+            // slanje mejla
             // testirati kreiranje faculty admin-a
             // napisati testove (Mail Service + create faculty admin)
             // create faculty
