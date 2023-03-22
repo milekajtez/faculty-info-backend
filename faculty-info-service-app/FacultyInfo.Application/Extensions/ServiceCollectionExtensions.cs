@@ -10,7 +10,6 @@ namespace FacultyInfo.Application.Extensions
         public static void AddApplicationServices(this IServiceCollection serviceCollection)
         {
             serviceCollection.AddTransient<IHashService, HashService>();
-            serviceCollection.AddTransient<IMailService, MailService>();
         }
     }
 }

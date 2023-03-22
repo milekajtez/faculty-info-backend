@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using FacultyInfo.Infrastructure.UnitOfWork;
 using FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin;
+using FacultyInfo.Domain.Abstractions.Mail.Services;
+using FacultyInfo.Infrastructure.Mail.Services;
+using SendGrid;
 
 namespace FacultyInfo.Api.Extensions
 {
@@ -27,6 +30,13 @@ namespace FacultyInfo.Api.Extensions
             });
 
             serviceCollection.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            serviceCollection.AddTransient<IMailService>(x =>
+                new MailService( 
+                    configuration,
+                    new SendGridClient(configuration["SENDGRID_KEY"]))
+                );
+
             serviceCollection.AddAutoMapper(typeof(ServiceCollectionExtensions));
             serviceCollection.AddHttpClient();
         }

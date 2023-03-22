@@ -9,7 +9,7 @@
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Like> Likes { get; set; }
 
-        public void Init(Guid id, DateTime created, DateTime updated, string email, string firstName, string lastName) 
+        public void Init(Guid id, DateTime created, DateTime updated, string email, string firstName, string lastName, Guid facultyId) 
         {
             Id = id;
             Created = created;
@@ -17,6 +17,7 @@
             Email = email;
             FirstName = firstName;
             LastName = lastName;
+            FacultyId = facultyId;
         }
     }
 }
