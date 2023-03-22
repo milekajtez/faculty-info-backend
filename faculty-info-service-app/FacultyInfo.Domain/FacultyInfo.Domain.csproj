@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <Compile Remove="Abstractions\Mail\Models\**" />
+    <EmbeddedResource Remove="Abstractions\Mail\Models\**" />
+    <None Remove="Abstractions\Mail\Models\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\Mail\Models\" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
 </Project>

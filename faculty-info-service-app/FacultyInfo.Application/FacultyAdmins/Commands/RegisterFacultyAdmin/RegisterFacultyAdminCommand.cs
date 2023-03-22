@@ -8,5 +8,6 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public Guid FacultyId { get; set; }
     }
 }

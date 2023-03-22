@@ -1,7 +1,9 @@
-﻿namespace FacultyInfo.Domain.Abstractions.Mail.Services
+﻿using FacultyInfo.Domain.Mail;
+
+namespace FacultyInfo.Domain.Abstractions.Mail.Services
 {
     public interface IMailService
     {
-        void SendEmail(string sendToEmail);
+        Task<MailResponse> SendAsync(string receiverMail, string firstName, string lastName, string tempPassword);
     }
 }

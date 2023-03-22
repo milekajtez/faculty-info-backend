@@ -49,7 +49,8 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
                 DateTime.UtcNow,
                 request.Email,
                 request.FirstName,
-                request.LastName);
+                request.LastName,
+                request.FacultyId);
 
             var tempPassword = _hashService.GenerateTempPassword();
 
@@ -65,12 +66,14 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
             var createdFacultyAdmin = await _unitOfWork.FacultyAdminRepository.CreateAsync(facultyAdmin);
             var createdSecurity = await _unitOfWork.SecurityRepository.CreateAsync(facultyAdminSecurity);
 
-            _mailService.SendEmail(request.Email);      // ovo bi trebalo da ide pre return-a
-
             await _unitOfWork.CompleteAsync();
-            
-            // slanje mejla
-            // testirati kreiranje faculty admin-a
+
+            await _mailService.SendAsync(
+                createdFacultyAdmin.Email,
+                createdFacultyAdmin.FirstName,
+                createdFacultyAdmin.LastName,
+                tempPassword);
+
             // napisati testove (Mail Service + create faculty admin)
             // create faculty
             // testiranje create faculty
