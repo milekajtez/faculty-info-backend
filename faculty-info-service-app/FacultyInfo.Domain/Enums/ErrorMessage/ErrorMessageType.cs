@@ -4,6 +4,7 @@
     {
         MainAdminHasBeenFound,
         FacultyAdminHasBeenFound,
+        FacultyHasBeenFound,
         InvalidConversionFromUserTypeToString,
         IncorrectEmailOrPassword,
         ConversionToHashInvalid

@@ -1,6 +1,6 @@
-﻿using FacultyInfo.Domain.Enums.ErrorMessage;
+﻿using FacultyInfo.Application.Helpers.Error;
+using FacultyInfo.Domain.Enums.ErrorMessage;
 using FacultyInfo.Domain.Exceptions;
-using FacultyInfo.Domain.Exceptions.Messages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PasswordGenerator;

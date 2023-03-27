@@ -21,6 +21,10 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
                 .IsRequired();
 
             modelBuilder.Entity<Faculty>()
+                .HasIndex(e => e.Tin)
+                .IsUnique();
+
+            modelBuilder.Entity<Faculty>()
                 .Property(f => f.Name)
                 .IsRequired();
 

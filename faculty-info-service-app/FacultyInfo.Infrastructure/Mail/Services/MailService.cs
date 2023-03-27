@@ -44,6 +44,7 @@ namespace FacultyInfo.Infrastructure.Mail.Services
             msg.AddTo(new EmailAddress(mailRequest.Receiver));
 
             var response = await _sendGridClient.SendEmailAsync(msg);
+
             if (response.IsSuccessStatusCode) return new MailResponse(HttpStatusCode.OK, "Successfully sent");
             
             return new MailResponse(response.StatusCode, "Something went wrong");
