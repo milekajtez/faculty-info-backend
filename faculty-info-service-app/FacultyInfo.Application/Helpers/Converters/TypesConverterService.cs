@@ -1,7 +1,7 @@
-﻿using FacultyInfo.Domain.Enums.ErrorMessage;
+﻿using FacultyInfo.Application.Helpers.Error;
+using FacultyInfo.Domain.Enums.ErrorMessage;
 using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
-using FacultyInfo.Domain.Exceptions.Messages;
 
 namespace FacultyInfo.Application.Helpers.Converters
 {

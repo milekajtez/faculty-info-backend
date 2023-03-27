@@ -1,9 +1,9 @@
 ﻿using FacultyInfo.Application.Helpers.Converters;
+using FacultyInfo.Application.Helpers.Error;
 using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Enums.ErrorMessage;
 using FacultyInfo.Domain.Exceptions;
-using FacultyInfo.Domain.Exceptions.Messages;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,8 +30,7 @@ namespace FacultyInfo.Application.Users.Queries.Login
 
             if (security is null)
                 throw new AuthentificationException(
-                    ErrorMessage.GenerateErrorMessage(ErrorMessageType.IncorrectEmailOrPassword, 
-                    new string[2] { request.Email, request.Password }));
+                    ErrorMessage.GenerateErrorMessage(ErrorMessageType.IncorrectEmailOrPassword, new string[2] { request.Email, request.Password }));
 
             return _hashService.GenerateToken(
                 security.Email,

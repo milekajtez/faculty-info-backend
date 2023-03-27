@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FacultyInfo.Application.Helpers.Error;
 using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Domain.Abstractions.Mail.Services;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
@@ -6,7 +7,6 @@ using FacultyInfo.Domain.Dtos.FacultyAdmin;
 using FacultyInfo.Domain.Enums.ErrorMessage;
 using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
-using FacultyInfo.Domain.Exceptions.Messages;
 using FacultyInfo.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
