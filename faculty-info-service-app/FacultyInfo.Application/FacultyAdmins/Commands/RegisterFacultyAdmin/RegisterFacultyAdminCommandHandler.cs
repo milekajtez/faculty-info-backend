@@ -74,13 +74,6 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
                 createdFacultyAdmin.LastName,
                 tempPassword);
 
-            // napisati testove (Mail Service + create faculty admin)
-            // create faculty
-            // testiranje create faculty
-            // faculties - get
-            // faculty admins - get
-            // testovi za get metode
-
             return _mapper.Map<FacultyAdminDto>(createdFacultyAdmin); 
         }
     }
