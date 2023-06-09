@@ -43,6 +43,8 @@ namespace FacultyInfo.Application.Faculties.Commands.CreateFaculty
 
             var created = await _unitOfWork.FacultyRepository.CreateAsync(newFaculty);
 
+            await _unitOfWork.CompleteAsync();
+
             return _mapper.Map<FacultyDto>(created);
         }
     }
