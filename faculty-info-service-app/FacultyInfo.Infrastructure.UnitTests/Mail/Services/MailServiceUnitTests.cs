@@ -1,5 +1,4 @@
-﻿using FacultyInfo.Domain.Mail;
-using FacultyInfo.Infrastructure.Mail.Services;
+﻿using FacultyInfo.Infrastructure.Mail.Services;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SendGrid;
@@ -29,6 +28,7 @@ namespace FacultyInfo.Infrastructure.UnitTests.Mail.Services
             _mailService = new MailService(_configurationMock.Object, _sendGridClientMock.Object);
         }
 
+        #region SendAsync
         [Fact]
         public async Task SendAsync_SendEmailRequestToSendGrid_WhenEverythingWorks() 
         {
@@ -78,5 +78,6 @@ namespace FacultyInfo.Infrastructure.UnitTests.Mail.Services
             Assert.NotNull(result);
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
         }
+        #endregion
     }
 }
