@@ -7,6 +7,7 @@
         FacultyHasBeenFound,
         InvalidConversionFromUserTypeToString,
         IncorrectEmailOrPassword,
-        ConversionToHashInvalid
+        ConversionToHashInvalid,
+        FacultyAdminHasNotFound
     }
 }
