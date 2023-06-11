@@ -8,20 +8,20 @@ namespace FacultyInfo.Api.Controllers
 {
     public class FacultiesController : BaseController
     {
+        [HttpGet]
+        public async Task<ActionResult<List<FacultyDto>>> GetFaculties()
+        {
+            var faculties = await Mediator.Send(new GetFacultiesQuery());
+
+            return Ok(faculties);
+        }
+
         [HttpPost]
         public async Task<ActionResult<FacultyDto>> CreateFaculty(CreateFacultyCommand createFacultyCommand)
         {
             var faculty = await Mediator.Send(createFacultyCommand);
 
             return Created(faculty.Id.ToString(), faculty);
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<List<FacultyDto>>> GetFaculties() 
-        {
-            var faculties = await Mediator.Send(new GetFacultiesQuery());
-            
-            return Ok(faculties);
         }
     }
 }
