@@ -3,7 +3,6 @@ using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.MainAdmin;
-using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +19,10 @@ namespace FacultyInfo.Application.UnitTests.Syncs.Commands.RegisterMainAdmin
         private readonly Mock<IConfiguration> _configurationMock;
         private readonly Mock<IHashService> _hashServiceMock;
         private readonly Mock<IMapper> _mapperMock;
+        private const string PasswordHash = "08DDC6C1884B225A61B600B1FC650488";
+        private const string Email = "Main Admin Test Email";
+        private const string FirstName = "Main Admin Test FirstName";
+        private const string LastName = "Main Admin Test LastName";
 
         public RegisterMainAdminCommandHandlerUnitTests() 
         {
@@ -40,21 +43,22 @@ namespace FacultyInfo.Application.UnitTests.Syncs.Commands.RegisterMainAdmin
         {
             // Arrange
             var registerMainAdminCommand = new RegisterMainAdminCommand();
-            var security = new List<Security>()
+            var mainAdmin = new List<MainAdmin>()
             {
-                new Security() 
+                new MainAdmin() 
                 {
                     Id = Guid.NewGuid(),
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow,
-                    Email = "Main Admin Test Email",
-                    Password = "08DDC6C1884B225A61B600B1FC650488",
-                    UserType = UserType.MainAdmin
+                    Email = Email,
+                    Password = PasswordHash,
+                    FirstName = FirstName,
+                    LastName = LastName
                 }
             }.AsQueryable().BuildMock();
 
-            _unitOfWorkMock.Setup(e => e.SecurityQuery.Find(It.IsAny<Expression<Func<Security, bool>>>()))
-                .Returns(security);
+            _unitOfWorkMock.Setup(e => e.MainAdminQuery.Find(It.IsAny<Expression<Func<MainAdmin, bool>>>()))
+                .Returns(mainAdmin);
 
             // Act & Assert
             await Assert.ThrowsAsync<AlreadyExistsException>(() =>
@@ -67,26 +71,18 @@ namespace FacultyInfo.Application.UnitTests.Syncs.Commands.RegisterMainAdmin
             // Arrange
             var registerMainAdminCommand = new RegisterMainAdminCommand();
             var passwordValue = "Main Admin Test Password";
-            var passwordHash = "08DDC6C1884B225A61B600B1FC650488";
-            var security = new List<Security>().AsQueryable().BuildMock();
+            var passwordHash = PasswordHash;
+            var mainAdmin = new List<MainAdmin>().AsQueryable().BuildMock();
 
             var createdMainAdmin = new MainAdmin()
             {
                 Id = Guid.NewGuid(),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
-                Email = "Main Admin Test Email",
-                FirstName = "Main Admin Test FirstName",
-                LastName = "Main Admin Test LastName"
-            };
-
-            var createdSecurity = new Security() 
-            {
-                Id = Guid.NewGuid(),
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
-                Email = createdMainAdmin.Email,
-                Password = passwordHash
+                Email = Email,
+                Password = PasswordHash,
+                FirstName = FirstName,
+                LastName = LastName
             };
 
             var mainAdminDto = new MainAdminDto() 
@@ -101,8 +97,8 @@ namespace FacultyInfo.Application.UnitTests.Syncs.Commands.RegisterMainAdmin
 
             _configurationMock.Setup(e => e["MAIN_ADMIN_EMAIL"])
                 .Returns(createdMainAdmin.Email);
-            _unitOfWorkMock.Setup(e => e.SecurityQuery.Find(It.IsAny<Expression<Func<Security, bool>>>()))
-                .Returns(security);
+            _unitOfWorkMock.Setup(e => e.MainAdminQuery.Find(It.IsAny<Expression<Func<MainAdmin, bool>>>()))
+                .Returns(mainAdmin);
             _configurationMock.Setup(e => e["MAIN_ADMIN_FIRST_NAME"])
                 .Returns(createdMainAdmin.FirstName);
             _configurationMock.Setup(e => e["MAIN_ADMIN_LAST_NAME"])
@@ -113,8 +109,6 @@ namespace FacultyInfo.Application.UnitTests.Syncs.Commands.RegisterMainAdmin
                 .Returns(passwordHash);
             _unitOfWorkMock.Setup(e => e.MainAdminRepository.CreateAsync(It.IsAny<MainAdmin>()))
                 .ReturnsAsync(createdMainAdmin);
-            _unitOfWorkMock.Setup(e => e.SecurityRepository.CreateAsync(It.IsAny<Security>()))
-                .ReturnsAsync(createdSecurity);
             _mapperMock.Setup(e => e.Map<MainAdminDto>(It.IsAny<MainAdmin>()))
                 .Returns(mainAdminDto);
 
@@ -129,8 +123,6 @@ namespace FacultyInfo.Application.UnitTests.Syncs.Commands.RegisterMainAdmin
             Assert.Equal(mainAdminDto.Email, result.Email);
             Assert.Equal(mainAdminDto.FirstName, result.FirstName);
             Assert.Equal(mainAdminDto.LastName, result.LastName);
-            Assert.Equal(createdSecurity.Email, result.Email);
-            Assert.Equal(createdSecurity.Password, passwordHash);
         }
     }
 }

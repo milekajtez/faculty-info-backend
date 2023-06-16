@@ -1,6 +1,5 @@
 ﻿using FacultyInfo.Application.Helpers.Error;
 using FacultyInfo.Domain.Enums.ErrorMessage;
-using FacultyInfo.Domain.Enums.User;
 
 namespace FacultyInfo.Application.UnitTests.Helpers.Error
 {
@@ -14,6 +13,9 @@ namespace FacultyInfo.Application.UnitTests.Helpers.Error
         [InlineData(ErrorMessageType.InvalidConversionFromUserTypeToString)]
         [InlineData(ErrorMessageType.IncorrectEmailOrPassword)]
         [InlineData(ErrorMessageType.ConversionToHashInvalid)]
+        [InlineData(ErrorMessageType.FacultyHasNotFound)]
+        [InlineData(ErrorMessageType.FacultyAdminHasNotFound)]
+        [InlineData(ErrorMessageType.InvalidUserType)]
         public void GenerateErrorMessage_LoadSpecificMessage_WhenEverythingWorks(ErrorMessageType errorMessageType) 
         {
             // Arrange
@@ -52,6 +54,9 @@ namespace FacultyInfo.Application.UnitTests.Helpers.Error
                 ErrorMessageType.InvalidConversionFromUserTypeToString => new List<string>(),
                 ErrorMessageType.IncorrectEmailOrPassword => new List<string>() { Guid.NewGuid().ToString(), "Test password" },
                 ErrorMessageType.ConversionToHashInvalid => new List<string>(),
+                ErrorMessageType.FacultyHasNotFound => new List<string>() { Guid.NewGuid().ToString() },
+                ErrorMessageType.FacultyAdminHasNotFound => new List<string>() { Guid.NewGuid().ToString() },
+                ErrorMessageType.InvalidUserType => new List<string>(),
                 _ => new List<string>(),
             };
         }

@@ -29,30 +29,45 @@ namespace FacultyInfo.Application.UnitTests.Users.Queries.Login
                 _hashServiceMock.Object);
         }
 
-        [Fact]
-        public async Task Handle_Login_WhenEverythingWorks() 
+        [Theory]
+        [InlineData(UserType.MainAdmin)]
+        [InlineData(UserType.FacultyAdmin)]
+        public async Task Handle_Login_WhenEverythingWorks(UserType userType) 
         {
             // Arrange
-            var loginQuery = new LoginQuery(Email, Password);
+            var loginQuery = new LoginQuery(Email, Password, userType);
             var token = "This is test token";
 
-            var security = new List<Security>() 
+            var mainAdmin = new List<MainAdmin>() 
             {
-                new Security()
+                new MainAdmin()
                 {
                     Id = Guid.NewGuid(),
                     Created = DateTime.Now,
                     Updated = DateTime.Now,
                     Email = Email,
-                    UserType = UserType.MainAdmin,
+                    Password = PasswordHash
+                }
+            }.AsQueryable().BuildMock();
+
+            var facultyAdmin = new List<FacultyAdmin>()
+            {
+                new FacultyAdmin()
+                {
+                    Id = Guid.NewGuid(),
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now,
+                    Email = Email,
                     Password = PasswordHash
                 }
             }.AsQueryable().BuildMock();
 
             _hashServiceMock.Setup(e => e.ConvertStringToHash(It.IsAny<string>()))
                 .Returns(PasswordHash);
-            _unitOfWorkMock.Setup(e => e.SecurityQuery.Find(It.IsAny<Expression<Func<Security, bool>>>()))
-                .Returns(security);
+            _unitOfWorkMock.Setup(e => e.MainAdminQuery.Find(It.IsAny<Expression<Func<MainAdmin, bool>>>()))
+                .Returns(mainAdmin);
+            _unitOfWorkMock.Setup(e => e.FacultyAdminQuery.Find(It.IsAny<Expression<Func<FacultyAdmin, bool>>>()))
+                .Returns(facultyAdmin);
             _hashServiceMock.Setup(e => e.GenerateToken(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(token);
 
@@ -64,17 +79,22 @@ namespace FacultyInfo.Application.UnitTests.Users.Queries.Login
             Assert.Equal(token, result);
         }
 
-        [Fact]
-        public async Task Handle_ThrowAuthentificationException_WhenCredentailsAreNotValid()
+        [Theory]
+        [InlineData(UserType.MainAdmin)]
+        [InlineData(UserType.FacultyAdmin)]
+        public async Task Handle_ThrowAuthentificationException_WhenCredentailsAreNotValid(UserType userType)
         {
             // Arrange
-            var loginQuery = new LoginQuery(Email, Password);
-            var security = new List<Security>() { }.AsQueryable().BuildMock();
+            var loginQuery = new LoginQuery(Email, Password, userType);
+            var mainAdmin = new List<MainAdmin>().AsQueryable().BuildMock();
+            var facultyAdmin = new List<FacultyAdmin>().AsQueryable().BuildMock();
 
             _hashServiceMock.Setup(e => e.ConvertStringToHash(It.IsAny<string>()))
                 .Returns(PasswordHash);
-            _unitOfWorkMock.Setup(e => e.SecurityQuery.Find(It.IsAny<Expression<Func<Security, bool>>>()))
-                .Returns(security);
+            _unitOfWorkMock.Setup(e => e.MainAdminQuery.Find(It.IsAny<Expression<Func<MainAdmin, bool>>>()))
+                .Returns(mainAdmin);
+            _unitOfWorkMock.Setup(e => e.FacultyAdminQuery.Find(It.IsAny<Expression<Func<FacultyAdmin, bool>>>()))
+                .Returns(facultyAdmin);
 
             // Act & Assert
             await Assert.ThrowsAsync<AuthentificationException>(() =>

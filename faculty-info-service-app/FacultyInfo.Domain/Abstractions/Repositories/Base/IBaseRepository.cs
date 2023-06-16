@@ -6,5 +6,6 @@ namespace FacultyInfo.Domain.Abstractions.Repositories.Base
     {
         IQueryable<T> Find(Expression<Func<T, bool>> expression);
         public Task<T> CreateAsync(T entity);
+        public void Delete(T entity);
     }
 }

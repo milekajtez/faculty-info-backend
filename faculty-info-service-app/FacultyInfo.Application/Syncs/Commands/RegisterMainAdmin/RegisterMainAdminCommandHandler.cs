@@ -4,7 +4,6 @@ using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.MainAdmin;
 using FacultyInfo.Domain.Enums.ErrorMessage;
-using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
 using MediatR;
@@ -35,7 +34,7 @@ namespace FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin
         public async Task<MainAdminDto> Handle(RegisterMainAdminCommand request, CancellationToken cancellationToken)
         {
             var mainAdminEmail = _configuration["MAIN_ADMIN_EMAIL"];
-            var mainAdminSecurity = await _unitOfWork.SecurityQuery
+            var mainAdminSecurity = await _unitOfWork.MainAdminQuery
                 .Find(e => e.Email == mainAdminEmail)
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -50,20 +49,10 @@ namespace FacultyInfo.Application.Syncs.Commands.RegisterMainAdmin
                 DateTime.UtcNow,
                 mainAdminEmail, 
                 _configuration["MAIN_ADMIN_FIRST_NAME"],
-                _configuration["MAIN_ADMIN_LAST_NAME"]);
-
-            var passwordHash = _hashService.ConvertStringToHash(_configuration["MAIN_ADMIN_PASSWORD"]);
-            var newMASecurity = new Security();
-            newMASecurity.Init(
-                Guid.NewGuid(),
-                DateTime.UtcNow,
-                DateTime.UtcNow,
-                mainAdminEmail, 
-                passwordHash,
-                UserType.MainAdmin);
+                _configuration["MAIN_ADMIN_LAST_NAME"],
+                _hashService.ConvertStringToHash(_configuration["MAIN_ADMIN_PASSWORD"]));
 
             var createdMainAdmin = await _unitOfWork.MainAdminRepository.CreateAsync(newMainAdmin);
-            var createdSecurity = await _unitOfWork.SecurityRepository.CreateAsync(newMASecurity);
 
             await _unitOfWork.CompleteAsync();
 

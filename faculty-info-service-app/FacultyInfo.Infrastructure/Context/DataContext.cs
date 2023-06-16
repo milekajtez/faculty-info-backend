@@ -20,7 +20,6 @@ namespace FacultyInfo.Infrastructure.Context
         public DbSet<Student> Students { get; set; }
         public DbSet<SubjectProfessors> SubjectProfessors { get; set; }
         public DbSet<Subject> Subjects { get; set; }
-        public DbSet<Security> Securities { get; set; }
 
         public DataContext() { }
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
@@ -41,7 +40,6 @@ namespace FacultyInfo.Infrastructure.Context
             StudentModelDefinition.SetModelDefinition(modelBuilder);
             SubjectProfessorsModelDefinition.SetModelDefinition(modelBuilder);
             SubjectModelDefinition.SetModelDefinition(modelBuilder);
-            SecurityModelDefinition.SetModelDefinition(modelBuilder);
         }
     }
 }

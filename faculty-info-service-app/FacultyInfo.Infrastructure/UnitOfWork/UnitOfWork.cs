@@ -26,7 +26,6 @@ namespace FacultyInfo.Infrastructure.UnitOfWork
         private IStudentQuery _studentQuery;
         private ISubjectProfessorsQuery _subjectProfessorsQuery;
         private ISubjectQuery _subjectQuery;
-        private ISecurityQuery _securityQuery;
         #endregion
         #region Repositories
         private IAttachmentRepository _attachmentRepository;
@@ -43,7 +42,6 @@ namespace FacultyInfo.Infrastructure.UnitOfWork
         private IStudentRepository _studentRepository;
         private ISubjectProfessorsRepository _subjectProfessorsRepository;
         private ISubjectRepository _subjectRepository;
-        private ISecurityRepository _securityRepository;
         #endregion
 
         public UnitOfWork(DataContext dataContext)
@@ -66,7 +64,6 @@ namespace FacultyInfo.Infrastructure.UnitOfWork
         public IStudentQuery StudentQuery => _studentQuery ??= new StudentQuery(_dataContext);
         public ISubjectProfessorsQuery SubjectProfessorsQuery => _subjectProfessorsQuery ??= new SubjectProfessorsQuery(_dataContext);
         public ISubjectQuery SubjectQuery => _subjectQuery ??= new SubjectQuery(_dataContext);
-        public ISecurityQuery SecurityQuery => _securityQuery ??= new SecurityQuery(_dataContext);
         #endregion
         #region Repositories
         public IAttachmentRepository AttachmentRepository => _attachmentRepository ??= new AttachmentRepository(_dataContext);
@@ -83,7 +80,6 @@ namespace FacultyInfo.Infrastructure.UnitOfWork
         public IStudentRepository StudentRepository => _studentRepository ??= new StudentRepository(_dataContext);
         public ISubjectProfessorsRepository SubjectProfessorsRepository => _subjectProfessorsRepository ??= new SubjectProfessorsRepository(_dataContext);
         public ISubjectRepository SubjectRepository => _subjectRepository ??= new SubjectRepository(_dataContext);
-        public ISecurityRepository SecurityRepository => _securityRepository ??= new SecurityRepository(_dataContext);
         #endregion
 
         public async Task<int> CompleteAsync()

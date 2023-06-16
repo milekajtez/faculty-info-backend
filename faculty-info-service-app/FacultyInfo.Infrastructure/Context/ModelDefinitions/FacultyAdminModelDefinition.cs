@@ -32,6 +32,10 @@ namespace FacultyInfo.Infrastructure.Context.ModelDefinitions
                 .Property(e => e.LastName)
                 .IsRequired();
 
+            modelBuilder.Entity<MainAdmin>()
+                .Property(e => e.Password)
+                .IsRequired();
+
             modelBuilder.Entity<FacultyAdmin>()
                 .HasOne(e => e.Faculty)
                 .WithMany(e => e.FacultyAdmins)
