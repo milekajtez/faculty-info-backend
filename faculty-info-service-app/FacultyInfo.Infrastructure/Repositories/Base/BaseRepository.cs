@@ -25,5 +25,10 @@ namespace FacultyInfo.Infrastructure.Repositories.Base
 
             return created.Entity;
         }
+
+        public void Delete(T entity)
+        {
+            _dataContext.Set<T>().Remove(entity);
+        }
     }
 }

@@ -5,7 +5,6 @@ using FacultyInfo.Domain.Abstractions.Mail.Services;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.FacultyAdmin;
 using FacultyInfo.Domain.Enums.ErrorMessage;
-using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
 using MediatR;
@@ -34,37 +33,28 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
 
         public async Task<FacultyAdminDto> Handle(RegisterFacultyAdminCommand request, CancellationToken cancellationToken)
         {
-            var security = await _unitOfWork.SecurityQuery
+            var facultyAdmin = await _unitOfWork.FacultyAdminQuery
                 .Find(e => e.Email == request.Email)
                 .FirstOrDefaultAsync(cancellationToken);
 
-            if (security is not null)
+            if (facultyAdmin is not null)
                 throw new AlreadyExistsException(
                     ErrorMessage.GenerateErrorMessage(ErrorMessageType.FacultyAdminHasBeenFound, Array.Empty<string>()));
+            
+            var tempPassword = _hashService.GenerateTempPassword();
 
-            var facultyAdmin = new FacultyAdmin();
-            facultyAdmin.Init(
+            var newFacultyAdmin = new FacultyAdmin();
+            newFacultyAdmin.Init(
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 DateTime.UtcNow,
                 request.Email,
                 request.FirstName,
                 request.LastName,
-                request.FacultyId);
+                request.FacultyId,
+                _hashService.ConvertStringToHash(tempPassword));
 
-            var tempPassword = _hashService.GenerateTempPassword();
-
-            var facultyAdminSecurity = new Security();
-            facultyAdminSecurity.Init(
-                Guid.NewGuid(),
-                DateTime.UtcNow,
-                DateTime.UtcNow,
-                request.Email,
-                _hashService.ConvertStringToHash(tempPassword),
-                UserType.FacultyAdmin);
-
-            var createdFacultyAdmin = await _unitOfWork.FacultyAdminRepository.CreateAsync(facultyAdmin);
-            var createdSecurity = await _unitOfWork.SecurityRepository.CreateAsync(facultyAdminSecurity);
+            var createdFacultyAdmin = await _unitOfWork.FacultyAdminRepository.CreateAsync(newFacultyAdmin);
 
             await _unitOfWork.CompleteAsync();
 

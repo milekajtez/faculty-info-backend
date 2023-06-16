@@ -8,6 +8,8 @@
         InvalidConversionFromUserTypeToString,
         IncorrectEmailOrPassword,
         ConversionToHashInvalid,
-        FacultyAdminHasNotFound
+        FacultyHasNotFound,
+        FacultyAdminHasNotFound,
+        InvalidUserType
     }
 }

@@ -20,7 +20,6 @@ namespace FacultyInfo.Domain.Abstractions.UnitOfWork
         IStudentQuery StudentQuery { get; }
         ISubjectProfessorsQuery SubjectProfessorsQuery { get; }
         ISubjectQuery SubjectQuery { get; }
-        ISecurityQuery SecurityQuery { get; }
         #endregion
         #region Repositories
         IAttachmentRepository AttachmentRepository { get; }
@@ -37,7 +36,6 @@ namespace FacultyInfo.Domain.Abstractions.UnitOfWork
         IStudentRepository StudentRepository { get; }
         ISubjectProfessorsRepository SubjectProfessorsRepository { get; }
         ISubjectRepository SubjectRepository { get; }
-        ISecurityRepository SecurityRepository { get; }
         #endregion
 
         Task<int> CompleteAsync();
