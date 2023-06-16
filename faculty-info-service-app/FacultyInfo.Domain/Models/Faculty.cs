@@ -19,5 +19,16 @@
             Description = description;
             Location = location;
         }
+
+        public static Faculty Update(Faculty faculty, string tin, string name, string description, string location) 
+        {
+            faculty.Updated = DateTime.UtcNow;
+            faculty.Tin = tin ?? faculty.Tin;
+            faculty.Name = name ?? faculty.Name;
+            faculty.Description = description ?? faculty.Description;
+            faculty.Location = location ?? faculty.Location;
+
+            return faculty;
+        }
     }
 }

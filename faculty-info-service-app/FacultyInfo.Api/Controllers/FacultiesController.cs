@@ -1,6 +1,7 @@
 ﻿using FacultyInfo.Api.Controllers.Base;
 using FacultyInfo.Application.Faculties.Commands.CreateFaculty;
 using FacultyInfo.Application.Faculties.Commands.DeleteFaculty;
+using FacultyInfo.Application.Faculties.Commands.UpdateFaculty;
 using FacultyInfo.Application.Faculties.Queries.GetFaculties;
 using FacultyInfo.Domain.Dtos.Faculty;
 using MediatR;
@@ -32,6 +33,17 @@ namespace FacultyInfo.Api.Controllers
             await Mediator.Send(new DeleteFacultyCommand(facultyId));
 
             return Ok();
+        }
+
+        [HttpPut("{facultyId}")]
+        public async Task<ActionResult<Unit>> UpdateFaculty(Guid facultyId, UpdateFacultyCommand updateFacultyCommand)
+        {
+            if (facultyId != updateFacultyCommand.Id)
+                return BadRequest(new { message = "ID in URL and ID in request body must be the same" });
+
+            var faculty = await Mediator.Send(updateFacultyCommand);
+
+            return Ok(faculty);
         }
     }
 }
