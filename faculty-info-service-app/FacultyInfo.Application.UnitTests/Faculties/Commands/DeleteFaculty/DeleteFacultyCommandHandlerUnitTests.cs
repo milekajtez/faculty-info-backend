@@ -1,4 +1,5 @@
 ﻿using FacultyInfo.Application.Faculties.Commands.DeleteFaculty;
+using FacultyInfo.Domain.Abstractions.Mail.Services;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
@@ -13,13 +14,16 @@ namespace FacultyInfo.Application.UnitTests.Faculties.Commands.DeleteFaculty
     {
         private readonly DeleteFacultyCommandHandler _deleteFacultyCommandHandler;
         private readonly Mock<IUnitOfWork> _unitOfWorkMock;
+        private readonly Mock<IMailService> _mailServiceMock;
 
         public DeleteFacultyCommandHandlerUnitTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _mailServiceMock = new Mock<IMailService>();
 
             _deleteFacultyCommandHandler = new DeleteFacultyCommandHandler(
-                _unitOfWorkMock.Object);
+                _unitOfWorkMock.Object,
+                _mailServiceMock.Object);
         }
 
         [Fact]
@@ -50,8 +54,19 @@ namespace FacultyInfo.Application.UnitTests.Faculties.Commands.DeleteFaculty
                 } 
             }.AsQueryable().BuildMock();
 
+            var facultyAdmin = new List<FacultyAdmin>()
+            {
+                new FacultyAdmin()
+                {
+                    Id = Guid.NewGuid(),
+                    FacultyId = deleteFacultyCommand.FacultyId
+                }
+            }.AsQueryable().BuildMock();
+
             _unitOfWorkMock.Setup(e => e.FacultyQuery.Find(It.IsAny<Expression<Func<Faculty, bool>>>()))
                 .Returns(faculty);
+            _unitOfWorkMock.Setup(e => e.FacultyAdminQuery.Find(It.IsAny<Expression<Func<FacultyAdmin, bool>>>()))
+                .Returns(facultyAdmin);
             _unitOfWorkMock.Setup(e => e.FacultyRepository.Delete(It.IsAny<Faculty>()));
 
             // Act

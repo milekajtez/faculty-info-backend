@@ -4,11 +4,13 @@ using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Domain.Abstractions.Mail.Services;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.FacultyAdmin;
+using FacultyInfo.Domain.Enums.Email;
 using FacultyInfo.Domain.Enums.ErrorMessage;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
 {
@@ -18,17 +20,20 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
         private readonly IHashService _hashService;
         private readonly IMapper _mapper;
         private readonly IMailService _mailService;
+        private readonly IConfiguration _configuration;
 
         public RegisterFacultyAdminCommandHandler(
-            IUnitOfWork unitOfWork, 
+            IUnitOfWork unitOfWork,
             IHashService hashService,
             IMapper mapper,
-            IMailService mailService) 
+            IMailService mailService,
+            IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _hashService = hashService;
             _mapper = mapper;
             _mailService = mailService;
+            _configuration = configuration;
         }
 
         public async Task<FacultyAdminDto> Handle(RegisterFacultyAdminCommand request, CancellationToken cancellationToken)
@@ -40,7 +45,7 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
             if (facultyAdmin is not null)
                 throw new AlreadyExistsException(
                     ErrorMessage.GenerateErrorMessage(ErrorMessageType.FacultyAdminHasBeenFound, Array.Empty<string>()));
-            
+
             var tempPassword = _hashService.GenerateTempPassword();
 
             var newFacultyAdmin = new FacultyAdmin();
@@ -59,12 +64,17 @@ namespace FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin
             await _unitOfWork.CompleteAsync();
 
             await _mailService.SendAsync(
+                EmailType.UserRegistration,
                 createdFacultyAdmin.Email,
-                createdFacultyAdmin.FirstName,
-                createdFacultyAdmin.LastName,
-                tempPassword);
+                new
+                {
+                    firstName = createdFacultyAdmin.FirstName,
+                    lastName = createdFacultyAdmin.LastName,
+                    tempPassword,
+                    buttonLink = _configuration["CORS_ORIGINS"]
+                });
 
-            return _mapper.Map<FacultyAdminDto>(createdFacultyAdmin); 
+            return _mapper.Map<FacultyAdminDto>(createdFacultyAdmin);
         }
     }
 }

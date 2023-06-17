@@ -1,5 +1,9 @@
 ﻿using FacultyInfo.Domain.Abstractions.Mail.Services;
+using FacultyInfo.Domain.Enums.Email;
+using FacultyInfo.Domain.Enums.ErrorMessage;
+using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Mail;
+using FacultyInfo.Infrastructure.Helper.Error;
 using Microsoft.Extensions.Configuration;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -12,24 +16,17 @@ namespace FacultyInfo.Infrastructure.Mail.Services
         private readonly IConfiguration _configuration;
         private readonly ISendGridClient _sendGridClient;
 
-        public MailService(IConfiguration configuration, ISendGridClient sendGridClient) 
+        public MailService(IConfiguration configuration, ISendGridClient sendGridClient)
         {
             _configuration = configuration;
             _sendGridClient = sendGridClient;
         }
 
-        public async Task<MailResponse> SendAsync(string receiverMail, string firstName, string lastName, string tempPassword)
+        #region SendAsync
+        public async Task<MailResponse> SendAsync(EmailType emailType, string receiverMail, object templateData)
         {
-            var templateData = new
-            {
-                firstName,
-                lastName,
-                tempPassword,
-                buttonLink = _configuration["CORS_ORIGINS"]
-            };
-
             var mailRequest = new MailRequest(
-                _configuration["SENDGRID_TEMPLATE_USER_REGISTRATION"],
+                GetEmailTemplate(emailType),
                 receiverMail,
                 templateData,
                 _configuration["APPLICATION_NAME"]);
@@ -46,8 +43,22 @@ namespace FacultyInfo.Infrastructure.Mail.Services
             var response = await _sendGridClient.SendEmailAsync(msg);
 
             if (response.IsSuccessStatusCode) return new MailResponse(HttpStatusCode.OK, "Successfully sent");
-            
+
             return new MailResponse(response.StatusCode, "Something went wrong");
         }
+        #endregion
+
+        #region GetEmailTemplate
+        public string GetEmailTemplate(EmailType emailType) 
+        {
+            return emailType switch
+            {
+                EmailType.UserRegistration => _configuration["SENDGRID_TEMPLATE_USER_REGISTRATION"],
+                EmailType.UserIsDeleted => _configuration["SENDGRID_TEMPLATE_USER_IS_DELETED"],
+                _ => throw new UnknownEmailTypeException(
+                    ErrorMessage.GenerateErrorMessage(ErrorMessageType.FacultyHasNotFound)),
+            };
+        }
+        #endregion
     }
 }

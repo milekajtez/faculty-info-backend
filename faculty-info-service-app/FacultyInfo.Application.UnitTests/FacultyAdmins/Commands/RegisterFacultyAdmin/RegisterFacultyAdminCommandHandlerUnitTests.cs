@@ -6,6 +6,7 @@ using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.FacultyAdmin;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
+using Microsoft.Extensions.Configuration;
 using MockQueryable.Moq;
 using Moq;
 using System.Linq.Expressions;
@@ -19,6 +20,7 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
         private readonly Mock<IHashService> _hashServiceMock;
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<IMailService> _mailServiceMock;
+        private readonly Mock<IConfiguration> _configurationMock;
 
         public RegisterFacultyAdminCommandHandlerUnitTests() 
         {
@@ -26,12 +28,14 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
             _hashServiceMock = new Mock<IHashService>();
             _mapperMock = new Mock<IMapper>();
             _mailServiceMock = new Mock<IMailService>();
+            _configurationMock = new Mock<IConfiguration>();
 
             _registerFacultyAdminCommandHandler = new RegisterFacultyAdminCommandHandler(
                 _unitOfWorkMock.Object,
                 _hashServiceMock.Object,
                 _mapperMock.Object,
-                _mailServiceMock.Object);
+                _mailServiceMock.Object,
+                _configurationMock.Object);
         }
 
         [Fact]
@@ -67,6 +71,7 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
             var registerFacultyAdminCommand = new RegisterFacultyAdminCommand();
             var passwordValue = "Faculty Admin Test Password";
             var passwordHash = "08DDC6C1884B225A61B600B1FC650488";
+            var cors_origins = "http://localhost:3000";
             var facultyAdmin = new List<FacultyAdmin>().AsQueryable().BuildMock();
 
             var createdFacultyAdmin = new FacultyAdmin()
@@ -95,6 +100,8 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
                 .Returns(passwordValue);
             _hashServiceMock.Setup(e => e.ConvertStringToHash(It.IsAny<string>()))
                 .Returns(passwordHash);
+            _configurationMock.Setup(e => e["CORS_ORIGINS"])
+                .Returns(cors_origins);
             _unitOfWorkMock.Setup(e => e.FacultyAdminRepository.CreateAsync(It.IsAny<FacultyAdmin>()))
                .ReturnsAsync(createdFacultyAdmin);
             _mapperMock.Setup(e => e.Map<FacultyAdminDto>(It.IsAny<FacultyAdmin>()))

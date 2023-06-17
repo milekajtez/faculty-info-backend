@@ -27,18 +27,18 @@ namespace FacultyInfo.Api.Controllers
             return Created(faculty.Id.ToString(), faculty);
         }
 
-        [HttpDelete("{facultyId}")]
-        public async Task<ActionResult<Unit>> DeleteFaculty(Guid facultyId)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> DeleteFaculty(Guid id)
         {
-            await Mediator.Send(new DeleteFacultyCommand(facultyId));
+            await Mediator.Send(new DeleteFacultyCommand(id));
 
             return Ok();
         }
 
-        [HttpPut("{facultyId}")]
-        public async Task<ActionResult<Unit>> UpdateFaculty(Guid facultyId, UpdateFacultyCommand updateFacultyCommand)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Unit>> UpdateFaculty(Guid id, UpdateFacultyCommand updateFacultyCommand)
         {
-            if (facultyId != updateFacultyCommand.Id)
+            if (id != updateFacultyCommand.Id)
                 return BadRequest(new { message = "ID in URL and ID in request body must be the same" });
 
             var faculty = await Mediator.Send(updateFacultyCommand);

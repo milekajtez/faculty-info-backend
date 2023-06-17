@@ -1,7 +1,9 @@
 ﻿using FacultyInfo.Api.Controllers.Base;
+using FacultyInfo.Application.FacultyAdmins.Commands.DeleteFacultyAdmin;
 using FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin;
 using FacultyInfo.Application.FacultyAdmins.Queries.GetFacultyAdmins;
 using FacultyInfo.Domain.Dtos.FacultyAdmin;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FacultyInfo.Api.Controllers
@@ -23,6 +25,14 @@ namespace FacultyInfo.Api.Controllers
             var facultyAdmin = await Mediator.Send(registerFacultyAdminCommand);
 
             return Created(facultyAdmin.Id.ToString(), facultyAdmin);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Unit>> DeleteFacultyAdmin(Guid id)
+        {
+            await Mediator.Send(new DeleteFacultyAdminCommand(id));
+
+            return Ok();
         }
     }
 }
