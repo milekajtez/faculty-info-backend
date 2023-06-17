@@ -1,4 +1,6 @@
-﻿using FacultyInfo.Infrastructure.Mail.Services;
+﻿using FacultyInfo.Domain.Enums.Email;
+using FacultyInfo.Domain.Exceptions;
+using FacultyInfo.Infrastructure.Mail.Services;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using SendGrid;
@@ -20,7 +22,7 @@ namespace FacultyInfo.Infrastructure.UnitTests.Mail.Services
         private const string LastName = "Test last name";
         private const string TempPassword = "Test temp password";
 
-        public MailServiceUnitTests() 
+        public MailServiceUnitTests()
         {
             _configurationMock = new Mock<IConfiguration>();
             _sendGridClientMock = new Mock<ISendGridClient>();
@@ -29,11 +31,21 @@ namespace FacultyInfo.Infrastructure.UnitTests.Mail.Services
         }
 
         #region SendAsync
-        [Fact]
-        public async Task SendAsync_SendEmailRequestToSendGrid_WhenEverythingWorks() 
+        [Theory]
+        [InlineData(EmailType.UserRegistration)]
+        [InlineData(EmailType.UserIsDeleted)]
+        public async Task SendAsync_SendEmailRequestToSendGrid_WhenEverythingWorks(EmailType emailType)
         {
             // Arrange
             var response = new Response(HttpStatusCode.OK, null, null);
+
+            var tempData = new
+            {
+                firstName = FirstName,
+                lastName = LastName,
+                tempPassword = TempPassword,
+                buttonLink = ButtonLink,
+            };
 
             _configurationMock.Setup(e => e["CORS_ORIGINS"])
                 .Returns(ButtonLink);
@@ -47,18 +59,28 @@ namespace FacultyInfo.Infrastructure.UnitTests.Mail.Services
                 .ReturnsAsync(response);
 
             // Act
-            var result = await _mailService.SendAsync(Email, FirstName, LastName, TempPassword);
+            var result = await _mailService.SendAsync(emailType, Email, tempData);
 
             // Assert
             Assert.NotNull(result);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
-        [Fact]
-        public async Task SendAsync_ShouldntSendEmal_WhenSendgridDoesntWork()
+        [Theory]
+        [InlineData(EmailType.UserRegistration)]
+        [InlineData(EmailType.UserIsDeleted)]
+        public async Task SendAsync_ShouldntSendEmal_WhenSendgridDoesntWork(EmailType emailType)
         {
             // Arrange
             var response = new Response(HttpStatusCode.InternalServerError, null, null);
+
+            var tempData = new
+            {
+                firstName = FirstName,
+                lastName = LastName,
+                tempPassword = TempPassword,
+                buttonLink = ButtonLink
+            };
 
             _configurationMock.Setup(e => e["CORS_ORIGINS"])
                 .Returns(ButtonLink);
@@ -72,11 +94,49 @@ namespace FacultyInfo.Infrastructure.UnitTests.Mail.Services
                 .ReturnsAsync(response);
 
             // Act
-            var result = await _mailService.SendAsync(Email, FirstName, LastName, TempPassword);
+            var result = await _mailService.SendAsync(emailType, Email, tempData);
 
             // Assert
             Assert.NotNull(result);
             Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
+        }
+        #endregion
+
+        #region GetEmailTemplate
+        [Theory]
+        [InlineData(EmailType.UserRegistration)]
+        [InlineData(EmailType.UserIsDeleted)]
+        public void GetEmailTemplate_GetSpecificTemplate_WhenEverythingWorks(EmailType emailType)
+        {
+            // Arrange
+            var sendgridTemplateRegistration = "Sendgrid template registration test ID";
+            var sendgridTemplateUserIsDeleted = "Sendgrid template user is deleted test ID";
+
+            _configurationMock.Setup(e => e["SENDGRID_TEMPLATE_USER_REGISTRATION"])
+                .Returns(sendgridTemplateRegistration);
+            _configurationMock.Setup(e => e["SENDGRID_TEMPLATE_USER_IS_DELETED"])
+                .Returns(sendgridTemplateUserIsDeleted);
+
+            // Act
+            var result = _mailService.GetEmailTemplate(emailType);
+
+            // Assert
+            Assert.NotNull(result);
+            if (emailType == EmailType.UserRegistration)
+                Assert.Equal(sendgridTemplateRegistration, result);
+            else if (emailType == EmailType.UserIsDeleted)
+                Assert.Equal(sendgridTemplateUserIsDeleted, result);
+        }
+
+        [Fact]
+        public void GetEmailTemplate_GetUnknownEmailTypeException_WhenEmailTypeDoesntExist() 
+        {
+            // Arrange
+            var emailType = (EmailType)(-1);
+
+            // Act & Assert
+            Assert.Throws<UnknownEmailTypeException>(() =>
+                _mailService.GetEmailTemplate(emailType));
         }
         #endregion
     }

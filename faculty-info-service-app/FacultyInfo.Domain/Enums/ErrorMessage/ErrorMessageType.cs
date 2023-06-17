@@ -10,6 +10,7 @@
         ConversionToHashInvalid,
         FacultyHasNotFound,
         FacultyAdminHasNotFound,
-        InvalidUserType
+        InvalidUserType,
+        UnknownEmailType
     }
 }
