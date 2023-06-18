@@ -44,6 +44,7 @@ namespace FacultyInfo.Application.Faculties.Commands.DeleteFaculty
                     });
             
             _unitOfWork.FacultyRepository.Delete(faculty);
+
             await _unitOfWork.CompleteAsync();
 
             return Unit.Value;

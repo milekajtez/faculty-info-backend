@@ -18,7 +18,6 @@ namespace FacultyInfo.Api.Controllers
             return Ok(facultyAdmins);
         }
 
-
         [HttpPost("register")]
         public async Task<ActionResult<FacultyAdminDto>> RegisterFacultyAdmin(RegisterFacultyAdminCommand registerFacultyAdminCommand)
         {

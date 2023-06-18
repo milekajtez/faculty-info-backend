@@ -15,7 +15,7 @@ namespace FacultyInfo.Application.Users.Queries.Login
         private readonly IUnitOfWork _unitOfWork;
         private readonly IHashService _hashService;
 
-        public LoginQueryHandler(IUnitOfWork unitOfWork, IHashService hashService) 
+        public LoginQueryHandler(IUnitOfWork unitOfWork, IHashService hashService)
         {
             _unitOfWork = unitOfWork;
             _hashService = hashService;
@@ -25,34 +25,26 @@ namespace FacultyInfo.Application.Users.Queries.Login
         {
             var passwordHash = _hashService.ConvertStringToHash(request.Password);
 
-            switch (request.UserType) 
-            {
-                case UserType.MainAdmin:
-                    var mainAdmin = await _unitOfWork.MainAdminQuery
-                        .Find(e => e.Email == request.Email && e.Password == passwordHash)
-                        .FirstOrDefaultAsync(cancellationToken) 
-                        ?? IncorrectLogin(request.Email, request.Password);
-                    break;
-                case UserType.FacultyAdmin:
-                    var facultyAdmin = await _unitOfWork.FacultyAdminQuery
-                        .Find(e => e.Email == request.Email && e.Password == passwordHash)
-                        .FirstOrDefaultAsync(cancellationToken)
-                        ?? IncorrectLogin(request.Email, request.Password);
-                    break;
-                default:
-                    throw new InvalidUserTypeException(
-                         ErrorMessage.GenerateErrorMessage(ErrorMessageType.InvalidUserType, Array.Empty<string>()));
-            }
-            
-            return _hashService.GenerateToken(
-                request.Email,
-                TypesConverterService.ConvertFromUserTypeToString(request.UserType));
-        }
+            var mainAdmin = await _unitOfWork.MainAdminQuery
+                .Find(e => e.Email == request.Email && e.Password == passwordHash)
+                .FirstOrDefaultAsync(cancellationToken);
 
-        private static object IncorrectLogin(string email, string password) 
-        {
+            if (mainAdmin is not null)
+                return _hashService.GenerateToken(
+                    request.Email,
+                    TypesConverterService.ConvertFromUserTypeToString(UserType.MainAdmin));
+
+            var facultyAdmin = await _unitOfWork.FacultyAdminQuery
+                .Find(e => e.Email == request.Email && e.Password == passwordHash)
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (facultyAdmin is not null)
+                return _hashService.GenerateToken(
+                    request.Email,
+                    TypesConverterService.ConvertFromUserTypeToString(UserType.FacultyAdmin));
+
             throw new AuthentificationException(
-                   ErrorMessage.GenerateErrorMessage(ErrorMessageType.IncorrectEmailOrPassword, new string[2] { email, password }));
+                   ErrorMessage.GenerateErrorMessage(ErrorMessageType.IncorrectEmailOrPassword, new string[2] { request.Email, request.Password }));
         }
     }
 }

@@ -16,7 +16,6 @@ namespace FacultyInfo.Application.Helpers.Error
                 ErrorMessageType.ConversionToHashInvalid => $"The minimum length of the string for conversion to hash value is 1",
                 ErrorMessageType.FacultyHasNotFound => $"Faculty with ID: '{data[0]}' doesn't exist",
                 ErrorMessageType.FacultyAdminHasNotFound => $"Faculty with ID: '{data[0]}' doesn't have any faculty admin",
-                ErrorMessageType.InvalidUserType => $"Invalid user type",
                 _ => string.Empty,
             };
         }

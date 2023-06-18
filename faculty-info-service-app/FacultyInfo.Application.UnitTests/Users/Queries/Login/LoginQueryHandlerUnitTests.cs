@@ -1,7 +1,6 @@
 ﻿using FacultyInfo.Application.Helpers.Hash;
 using FacultyInfo.Application.Users.Queries.Login;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
-using FacultyInfo.Domain.Enums.User;
 using FacultyInfo.Domain.Exceptions;
 using FacultyInfo.Domain.Models;
 using MockQueryable.Moq;
@@ -29,13 +28,11 @@ namespace FacultyInfo.Application.UnitTests.Users.Queries.Login
                 _hashServiceMock.Object);
         }
 
-        [Theory]
-        [InlineData(UserType.MainAdmin)]
-        [InlineData(UserType.FacultyAdmin)]
-        public async Task Handle_Login_WhenEverythingWorks(UserType userType) 
+        [Fact]
+        public async Task Handle_Login_WhenEverythingWorks() 
         {
             // Arrange
-            var loginQuery = new LoginQuery(Email, Password, userType);
+            var loginQuery = new LoginQuery(Email, Password);
             var token = "This is test token";
 
             var mainAdmin = new List<MainAdmin>() 
@@ -79,13 +76,11 @@ namespace FacultyInfo.Application.UnitTests.Users.Queries.Login
             Assert.Equal(token, result);
         }
 
-        [Theory]
-        [InlineData(UserType.MainAdmin)]
-        [InlineData(UserType.FacultyAdmin)]
-        public async Task Handle_ThrowAuthentificationException_WhenCredentailsAreNotValid(UserType userType)
+        [Fact]
+        public async Task Handle_ThrowAuthentificationException_WhenCredentailsAreNotValid()
         {
             // Arrange
-            var loginQuery = new LoginQuery(Email, Password, userType);
+            var loginQuery = new LoginQuery(Email, Password);
             var mainAdmin = new List<MainAdmin>().AsQueryable().BuildMock();
             var facultyAdmin = new List<FacultyAdmin>().AsQueryable().BuildMock();
 
