@@ -27,6 +27,7 @@ namespace FacultyInfo.Infrastructure.UnitOfWork
         private ISubjectProfessorsQuery _subjectProfessorsQuery;
         private ISubjectQuery _subjectQuery;
         #endregion
+
         #region Repositories
         private IAttachmentRepository _attachmentRepository;
         private ICommentRepository _commentRepository;
@@ -65,6 +66,7 @@ namespace FacultyInfo.Infrastructure.UnitOfWork
         public ISubjectProfessorsQuery SubjectProfessorsQuery => _subjectProfessorsQuery ??= new SubjectProfessorsQuery(_dataContext);
         public ISubjectQuery SubjectQuery => _subjectQuery ??= new SubjectQuery(_dataContext);
         #endregion
+
         #region Repositories
         public IAttachmentRepository AttachmentRepository => _attachmentRepository ??= new AttachmentRepository(_dataContext);
         public ICommentRepository CommentRepository => _commentRepository ??= new CommentRepository(_dataContext);

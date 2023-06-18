@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FacultyInfo.Application.Faculties.Commands.CreateFaculty;
 using FacultyInfo.Application.Faculties.Commands.UpdateFaculty;
 using FacultyInfo.Domain.Abstractions.UnitOfWork;
 using FacultyInfo.Domain.Dtos.Faculty;

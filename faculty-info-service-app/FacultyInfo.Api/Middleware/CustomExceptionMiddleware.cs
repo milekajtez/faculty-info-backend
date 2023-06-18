@@ -8,6 +8,7 @@ namespace FacultyInfo.Api.Middleware
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<CustomExceptionMiddleware> _logger;
+        private const string ErrorTemplate = "An unhandled exception occurred during the request.";
 
         public CustomExceptionMiddleware(RequestDelegate next, ILogger<CustomExceptionMiddleware> logger)
         {
@@ -29,7 +30,7 @@ namespace FacultyInfo.Api.Middleware
                 if (e is BaseException exception)
                 {
                     response.StatusCode = (int)exception.StatusCode;
-                    _logger.LogError(e, e.StackTrace);
+                    _logger.LogError(e, ErrorTemplate, e.StackTrace);
                     await response.WriteAsync(new ErrorDetails
                     {
                         Message = exception.Message
@@ -38,7 +39,7 @@ namespace FacultyInfo.Api.Middleware
                 else
                 {
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    _logger.LogError(e, e.StackTrace);
+                    _logger.LogError(e, ErrorTemplate, e.StackTrace);
                     await response.WriteAsync(new ErrorDetails
                     {
                         Message = e.Message

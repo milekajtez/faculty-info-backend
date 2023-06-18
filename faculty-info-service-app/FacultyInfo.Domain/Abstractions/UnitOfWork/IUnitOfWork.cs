@@ -21,6 +21,7 @@ namespace FacultyInfo.Domain.Abstractions.UnitOfWork
         ISubjectProfessorsQuery SubjectProfessorsQuery { get; }
         ISubjectQuery SubjectQuery { get; }
         #endregion
+
         #region Repositories
         IAttachmentRepository AttachmentRepository { get; }
         ICommentRepository CommentRepository { get; }

@@ -1,6 +1,4 @@
 ﻿using FacultyInfo.Application.Helpers.Hash;
-using FacultyInfo.Domain.Abstractions.Mail.Services;
-using FacultyInfo.Infrastructure.Mail.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FacultyInfo.Application.Extensions

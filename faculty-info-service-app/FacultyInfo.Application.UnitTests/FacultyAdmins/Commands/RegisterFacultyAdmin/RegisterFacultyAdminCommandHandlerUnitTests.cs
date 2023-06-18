@@ -21,6 +21,9 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
         private readonly Mock<IMapper> _mapperMock;
         private readonly Mock<IMailService> _mailServiceMock;
         private readonly Mock<IConfiguration> _configurationMock;
+        private const string Email = "test@email.test";
+        private const string FirstName = "Faculty Admin Test FirstName";
+        private const string LastName = "Faculty Admin Test LastName";
 
         public RegisterFacultyAdminCommandHandlerUnitTests() 
         {
@@ -50,9 +53,9 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
                     Id = Guid.NewGuid(),
                     Created = DateTime.UtcNow,
                     Updated = DateTime.UtcNow,
-                    Email = "Faculty Admin Test Email",
-                    FirstName = "Main Admin Test FirstName",
-                    LastName = "Main Admin Test LastName"
+                    Email = Email,
+                    FirstName = FirstName,
+                    LastName = LastName
                 }
             }.AsQueryable().BuildMock();
 
@@ -79,9 +82,9 @@ namespace FacultyInfo.Application.UnitTests.FacultyAdmins.Commands.RegisterFacul
                 Id = Guid.NewGuid(),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
-                Email = "Main Admin Test Email",
-                FirstName = "Main Admin Test FirstName",
-                LastName = "Main Admin Test LastName"
+                Email = Email,
+                FirstName = FirstName,
+                LastName = LastName
             };
 
             var facultyAdminDto = new FacultyAdminDto()
