@@ -11,7 +11,7 @@
 $dir = pwd
 
 # Delete previous test run results (there's a bunch of subfolders named with guids)
-#Remove-Item -Recurse -Force $dir/TestResults/
+Remove-Item -Recurse -Force $dir/TestResults/
 
 # Run the Coverlet.Collector - REPLACING YOUR SOLUTION NAME!!!
 $output = [string] (& dotnet test ../faculty-info-service-app.sln --collect:"XPlat Code Coverage" 2>&1)
@@ -19,7 +19,7 @@ Write-Host "Last Exit Code: $lastexitcode"
 Write-Host $output
 
 # Delete previous test run reports - note if you're getting wrong results do a Solution Clean and Rebuild to remove stale DLLs in the bin folder
-#Remove-Item -Recurse -Force $dir/coveragereport/
+Remove-Item -Recurse -Force $dir/coveragereport/
 
 # To keep a history of the Code Coverage we need to use the argument: -historydir:SOME_DIRECTORY 
 if (!(Test-Path -path $dir/CoverageHistory)) {  
