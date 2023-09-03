@@ -17,8 +17,6 @@ builder.Services.AddApplicationServices();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
 
-// Change for testing Github actions
-
 // Swagger configuration
 builder.Services.AddSwaggerServices();
 
