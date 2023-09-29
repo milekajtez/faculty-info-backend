@@ -1,6 +1,7 @@
 ﻿using FacultyInfo.Api.Controllers.Base;
 using FacultyInfo.Application.FacultyAdmins.Commands.DeleteFacultyAdmin;
 using FacultyInfo.Application.FacultyAdmins.Commands.RegisterFacultyAdmin;
+using FacultyInfo.Application.FacultyAdmins.Queries.GetAllFacultyAdmins;
 using FacultyInfo.Application.FacultyAdmins.Queries.GetFacultyAdmins;
 using FacultyInfo.Domain.Dtos.FacultyAdmin;
 using MediatR;
@@ -10,6 +11,14 @@ namespace FacultyInfo.Api.Controllers
 {
     public class FacultyAdminsController : BaseController
     {
+        [HttpGet]
+        public async Task<ActionResult<List<FacultyAdminDto>>> GetAllFacultyAdmins()
+        {
+            var facultyAdmins = await Mediator.Send(new GetAllFacultyAdminsQuery());
+
+            return Ok(facultyAdmins);
+        }
+
         [HttpGet("{facultyId}")]
         public async Task<ActionResult<List<FacultyAdminDto>>> GetFacultyAdminsByFacultyId(Guid facultyId) 
         {
